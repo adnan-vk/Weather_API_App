@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:weather/controller/location_provider.dart';
 import 'package:weather/service/weather_service_provider.dart';
 
-class homeprovider extends ChangeNotifier{
+class homeprovider extends ChangeNotifier {
   Future checkInternet() async {
     var connectivityresult = await Connectivity().checkConnectivity();
     return connectivityresult != ConnectivityResult.none;

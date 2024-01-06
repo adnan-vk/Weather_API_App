@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -7,17 +5,20 @@ import 'package:weather/controller/homeprovider.dart';
 import 'package:weather/controller/location_provider.dart';
 import 'package:weather/service/weather_service_provider.dart';
 
+TextEditingController cityCoontroller = TextEditingController();
+
 class HomePage extends StatelessWidget {
-   HomePage({super.key});
+  HomePage({super.key});
 
   final date = DateFormat('EEEE dd-MM-yyyy').format(DateTime.now());
+  
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final weatherprovider =
         Provider.of<WeatherServiceProvider>(context, listen: false);
-        Provider.of<homeprovider>(context).checkInternetAndFetchData(context);
+    Provider.of<homeprovider>(context).checkInternetAndFetchData(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -89,7 +90,7 @@ class HomePage extends StatelessWidget {
                               Provider.of<WeatherServiceProvider>(context,
                                       listen: false)
                                   .FetchWeatherDataByCity(city);
-                                  cityCoontroller.clear();
+                              cityCoontroller.clear();
                             }
                           });
                         },
@@ -138,7 +139,6 @@ class HomePage extends StatelessWidget {
                       weathervalue.weather == null) {
                     return const CircularProgressIndicator();
                   }
-
                   return Column(
                     children: [
                       Text(
@@ -201,7 +201,6 @@ class HomePage extends StatelessWidget {
                       if (weather == null) {
                         return const CircularProgressIndicator();
                       }
-
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -315,5 +314,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-TextEditingController cityCoontroller = TextEditingController();

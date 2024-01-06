@@ -22,9 +22,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => WeatherServiceProvider(),
         ),
-        ChangeNotifierProvider(create: (context) => homeprovider(),)
+        ChangeNotifierProvider(
+          create: (context) => homeprovider(),
+        )
       ],
-      child:  MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: HomePage(),
       ),

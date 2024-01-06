@@ -28,7 +28,7 @@ class WeatherServiceProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        
+
         _weather = WeatherModel.fromJson(data);
         notifyListeners();
       } else {
