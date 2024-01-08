@@ -11,7 +11,6 @@ class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   final date = DateFormat('EEEE dd-MM-yyyy').format(DateTime.now());
-  
 
   @override
   Widget build(BuildContext context) {
