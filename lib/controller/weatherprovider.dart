@@ -14,7 +14,7 @@ class WeatherProvider with ChangeNotifier {
 
   final WeatherService _weatherService = WeatherService();
 
-  Future<void> fetchWeatherDataByCity(String city) async {
+  Future<void> fetchWeatherDataByCity(String city,context) async {
     _isLoading = true;
     _errors = "";
 
@@ -24,6 +24,10 @@ class WeatherProvider with ChangeNotifier {
       if (_weather != null) {
         notifyListeners();
       } else {
+        final snackbar = SnackBar(
+          backgroundColor: Colors.red,
+          content: Text("city not awailable"));
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
         _errors = "Failed to load data";
       }
     } catch (e) {

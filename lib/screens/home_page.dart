@@ -88,7 +88,7 @@ class HomePage extends StatelessWidget {
                                   .currentLocationName?.locality;
                               Provider.of<WeatherProvider>(context,
                                       listen: false)
-                                  .fetchWeatherDataByCity(city);
+                                  .fetchWeatherDataByCity(city,context);
                               cityCoontroller.clear();
                             }
                           });
@@ -124,7 +124,7 @@ class HomePage extends StatelessWidget {
                   IconButton(
                       onPressed: () {
                         weatherprovider.fetchWeatherDataByCity(
-                            cityCoontroller.text.trim());
+                            cityCoontroller.text.trim(),context);
                       },
                       icon: const Icon(Icons.search))
                 ],
