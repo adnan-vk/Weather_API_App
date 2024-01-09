@@ -42,5 +42,6 @@ class LocatorProvider extends ChangeNotifier {
     _currentLocationName =
         await _locationService.getLocationName(_currentPosition);
     notifyListeners();
+    print(_currentLocationName);
   }
 }
