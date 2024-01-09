@@ -141,7 +141,7 @@ class HomePage extends StatelessWidget {
                   return Column(
                     children: [
                       Text(
-                        "${weathervalue.weather!.main!.temp!.round().toString()}\u00b0c",
+                        "${weathervalue.weather!.temp!.round().toString()}\u00b0c",
                         style: const TextStyle(
                           fontSize: 70,
                           fontWeight: FontWeight.w200,
@@ -149,7 +149,7 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        weathervalue.weather!.weather?[0].description
+                        weathervalue.weather!.clouds
                                 ?.toString() ??
                             'N/A',
                         style: const TextStyle(
@@ -217,7 +217,7 @@ class HomePage extends StatelessWidget {
                                         fontSize: 15, color: Colors.white),
                                   ),
                                   Text(
-                                    "${weather.main?.tempMax?.round().toString() ?? "N/A"}\u00b0c",
+                                    "${weather.temp_max?.round().toString() ?? "N/A"}\u00b0c",
                                     style: const TextStyle(
                                         fontSize: 25, color: Colors.red),
                                   ),
@@ -238,7 +238,7 @@ class HomePage extends StatelessWidget {
                                         fontSize: 15, color: Colors.white),
                                   ),
                                   Text(
-                                    "${weather.main?.tempMin?.round().toString() ?? 'N/A'}\u00b0c",
+                                    "${weather.temp_min?.round().toString() ?? 'N/A'}\u00b0c",
                                     style: const TextStyle(
                                         fontSize: 25, color: Colors.blue),
                                   ),
@@ -267,7 +267,7 @@ class HomePage extends StatelessWidget {
                                   Text(
                                     DateFormat("hh:mm a").format(
                                       DateTime.fromMillisecondsSinceEpoch(
-                                        weather.sys!.sunrise! * 1000,
+                                        weather.sunrise! * 1000,
                                       ),
                                     ),
                                     style:
@@ -290,7 +290,7 @@ class HomePage extends StatelessWidget {
                                   Text(
                                     DateFormat("hh:mm a").format(
                                       DateTime.fromMillisecondsSinceEpoch(
-                                        weather.sys!.sunset! * 1000,
+                                        weather.sunset! * 1000,
                                       ),
                                     ),
                                     style:
