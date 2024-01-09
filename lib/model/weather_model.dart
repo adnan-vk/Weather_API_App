@@ -28,7 +28,6 @@ class WeatherModel {
       temp_max = json['main']['temp_max']?.toDouble();
       temp_min = json['main']['temp_min']?.toDouble();
     }
-
     sunrise = json['sys']['sunrise'];
     sunset = json['sys']['sunset'];
   }

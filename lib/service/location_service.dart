@@ -14,7 +14,6 @@ class LocationService {
           return placemark[0];
         }
       } catch (e) {
-        
         log("error fetching location name");
       }
     }

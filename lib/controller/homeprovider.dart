@@ -42,7 +42,7 @@ class homeprovider extends ChangeNotifier {
           var city = locationProvider.currentLocationName?.locality;
           if (city != null) {
             Provider.of<WeatherServiceProvider>(context, listen: false)
-                .FetchWeatherDataByCity(city,context);
+                .FetchWeatherDataByCity(city, context);
           }
         }
       });

@@ -79,19 +79,7 @@ class HomePage extends StatelessWidget {
                       const Text("Refresh"),
                       IconButton(
                         onPressed: () {
-                          final locationProvider = Provider.of<LocatorProvider>(
-                              context,
-                              listen: false);
-                          locationProvider.determinePosition().then((_) {
-                            if (locationProvider.currentLocationName != null) {
-                              dynamic city = locationProvider
-                                  .currentLocationName?.locality;
-                              Provider.of<WeatherServiceProvider>(context,
-                                      listen: false)
-                                  .FetchWeatherDataByCity(city,context);
-                              cityCoontroller.clear();
-                            }
-                          });
+                          refresh(context);
                         },
                         icon: const Icon(
                           Icons.refresh,
@@ -124,7 +112,7 @@ class HomePage extends StatelessWidget {
                   IconButton(
                       onPressed: () {
                         weatherprovider.FetchWeatherDataByCity(
-                            cityCoontroller.text.trim(),context);
+                            cityCoontroller.text.trim(), context);
                       },
                       icon: const Icon(Icons.search))
                 ],
@@ -149,9 +137,7 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        weathervalue.weather!.clouds
-                                ?.toString() ??
-                            'N/A',
+                        weathervalue.weather!.clouds?.toString() ?? 'N/A',
                         style: const TextStyle(
                           fontSize: 20,
                           color: Colors.black45,
@@ -312,4 +298,17 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+  refresh(context){
+    final locationProvider = Provider.of<LocatorProvider>(context,listen: false);
+    locationProvider.determinePosition().then((_) {
+    if (locationProvider.currentLocationName != null) {
+    dynamic city = locationProvider.currentLocationName?.locality;
+    Provider.of<WeatherServiceProvider>(context,listen: false).FetchWeatherDataByCity(city, context);
+    cityCoontroller.clear();
+ }});
+ final snackbar = SnackBar(
+  backgroundColor: Colors.white60,
+  content: Text("The page is refreshing...",style: TextStyle(color: Colors.black),));
+ ScaffoldMessenger.of(context).showSnackBar(snackbar);
+}
 }
