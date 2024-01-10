@@ -49,6 +49,7 @@ class homeprovider extends ChangeNotifier {
       });
     }
   }
+
   refresh(context) {
     final locationProvider =
         Provider.of<LocatorProvider>(context, listen: false);
@@ -57,15 +58,26 @@ class homeprovider extends ChangeNotifier {
         dynamic city = locationProvider.currentLocationName?.locality;
         Provider.of<WeatherProvider>(context, listen: false)
             .fetchWeatherDataByCity(city, context);
-        cityCoontroller.clear();
       }
     });
     final snackbar = SnackBar(
-        backgroundColor: Colors.white60,  
+        backgroundColor: Colors.white60,
         content: Text(
           "The page is refreshing...",
           style: TextStyle(color: Colors.black),
         ));
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  }
+
+  searchCity(context) async {
+    final prov = Provider.of<WeatherProvider>(context, listen: false);
+    await prov.fetchWeatherDataByCity(cityCoontroller.text.trim(), context);
+    cityCoontroller.clear();
+
+    if (prov.weather == null) {
+      final snackBar = SnackBar(
+          backgroundColor: Colors.red, content: Text("City not found"));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 }
