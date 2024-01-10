@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/controller/homeprovider.dart';
 import 'package:weather/controller/location_provider.dart';
-import 'package:weather/service/weather_service.dart';
+import 'package:weather/controller/weatherprovide.dart';
 
 TextEditingController cityCoontroller = TextEditingController();
 
@@ -15,9 +15,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final weatherprovider =
-        Provider.of<WeatherServiceProvider>(context, listen: false);
-    Provider.of<homeprovider>(context).checkInternetAndFetchData(context);
+    final homeprov = Provider.of<homeprovider>(context, listen: false);
+    homeprov.checkInternetAndFetchData(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -79,7 +78,7 @@ class HomePage extends StatelessWidget {
                       const Text("Refresh"),
                       IconButton(
                         onPressed: () {
-                          refresh(context);
+                          homeprov.refresh(context);
                         },
                         icon: const Icon(
                           Icons.refresh,
@@ -109,18 +108,15 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  IconButton(
-                      onPressed: () {
-                        weatherprovider.FetchWeatherDataByCity(
-                            cityCoontroller.text.trim(), context);
-                      },
-                      icon: const Icon(Icons.search))
+                  IconButton(onPressed: () {
+                    showsnackbar(context);
+                  }, icon: const Icon(Icons.search))
                 ],
               ),
               const SizedBox(
                 height: 80,
               ),
-              Consumer2<WeatherServiceProvider, LocatorProvider>(
+              Consumer2<WeatherProvider, LocatorProvider>(
                 builder: (context, weathervalue, locatorvalue, child) {
                   if (locatorvalue.currentLocationName == null ||
                       weathervalue.weather == null) {
@@ -167,7 +163,7 @@ class HomePage extends StatelessWidget {
                 ),
                 width: 330,
                 height: 150,
-                child: Consumer2<WeatherServiceProvider, LocatorProvider>(
+                child: Consumer2<WeatherProvider, LocatorProvider>(
                   builder: (context, weathervalue, locatorvalue, child) {
                     if (locatorvalue.currentLocationName == null) {
                       // Display a message to select a location
@@ -298,17 +294,15 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-  refresh(context){
-    final locationProvider = Provider.of<LocatorProvider>(context,listen: false);
-    locationProvider.determinePosition().then((_) {
-    if (locationProvider.currentLocationName != null) {
-    dynamic city = locationProvider.currentLocationName?.locality;
-    Provider.of<WeatherServiceProvider>(context,listen: false).FetchWeatherDataByCity(city, context);
-    cityCoontroller.clear();
- }});
- final snackbar = SnackBar(
-  backgroundColor: Colors.white60,
-  content: Text("The page is refreshing...",style: TextStyle(color: Colors.black),));
- ScaffoldMessenger.of(context).showSnackBar(snackbar);
-}
+
+  showsnackbar(context)async {
+    final prov = Provider.of<WeatherProvider>(context,listen: false);
+   await prov.fetchWeatherDataByCity(cityCoontroller.text.trim(), context);
+
+    if (prov.weather == null) {
+      final snackBar = SnackBar(
+          backgroundColor: Colors.red, content: Text("City not found"));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else {}
+  }
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/controller/homeprovider.dart';
 import 'package:weather/controller/location_provider.dart';
+import 'package:weather/controller/weatherprovide.dart';
 import 'package:weather/screens/home_page.dart';
-import 'package:weather/service/weather_service.dart';
 
 void main(List<String> args) {
   runApp(const MyApp());
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           create: (context) => LocatorProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => WeatherServiceProvider(),
+          create: (context) => WeatherProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => homeprovider(),
