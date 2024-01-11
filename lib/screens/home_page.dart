@@ -16,7 +16,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final homeprov = Provider.of<homeprovider>(context, listen: false);
-    homeprov.checkInternetAndFetchData(context);
+    checkInternetAndFetchData(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -295,5 +295,42 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+  Future<void> checkInternetAndFetchData(context) async {
+    final hasInternet = await Provider.of<homeprovider>(context).checkInternet();
+    if (!hasInternet) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('No Internet Connection'),
+            content: const Text(
+                'Please check your internet connection. Please restart the app after the network is stabled'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      // Internet is available, proceed with fetching data
+      final locationProvider =
+          Provider.of<LocatorProvider>(context, listen: false);
+
+      locationProvider.determinePosition().then((_) {
+        if (locationProvider.currentLocationName != null) {
+          var city = locationProvider.currentLocationName?.locality;
+          if (city != null) {  
+            Provider.of<WeatherProvider>(context, listen: false)
+                .fetchWeatherDataByCity(city, context);
+          }
+        }
+      });
+    }
   }
 }
