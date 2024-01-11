@@ -110,7 +110,7 @@ class HomePage extends StatelessWidget {
                   ),
                   IconButton(
                       onPressed: () {
-                        homeprov.searchCity(context);
+                        searchCity(context);
                       },
                       icon: const Icon(Icons.search))
                 ],
@@ -331,6 +331,18 @@ class HomePage extends StatelessWidget {
           }
         }
       });
+    }
+  }
+
+  searchCity(context) async {
+    final prov = Provider.of<WeatherProvider>(context, listen: false);
+    await prov.fetchWeatherDataByCity(cityCoontroller.text.trim(), context);
+    cityCoontroller.clear();
+
+    if (prov.weather == null) {
+      final snackBar = SnackBar(
+          backgroundColor: Colors.red, content: Text("City not found"));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 }
